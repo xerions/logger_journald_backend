@@ -1,0 +1,1 @@
+%{"ejournald": {:git, "git://github.com/systemd/ejournald.git", "2c54d548de698eabd171fa0acd973b203135c880", []}}
