@@ -28,23 +28,11 @@ defmodule Logger.Backend.Journald do
 
   defp write(level, msg, ts, md, state) do
     text = Logger.Formatter.format(state.format, level, msg, ts, md) -- ["\n"]
-    module = " module: " <> (Keyword.get(md, :module) |> to_string) <> " "
-    function = "function: " <> Keyword.get(md, :function) <> " "
-    text = case state.metadata do
-             [] ->
-               text
-             _ ->
-               for metadata_key <- state.metadata, length(state.metadata) > 0 do
-                 case Keyword.get(md, metadata_key, nil) do
-                   nil ->
-                     text
-                   v ->
-                     text ++ [" " <> (metadata_key |> to_string) <> "=" <> v <> " "]
-                 end
-             end |> :lists.flatten
-           end
+    metadata = for {md_key, md_val} <- md do
+      {md_key |> to_string |> String.upcase, :io_lib.format("~p", [md_val])}
+    end
 
-    metalist = [{'MESSAGE', text ++ [module] ++ [function]}, {'PRIORITY', level_to_num(state.level)}]
+    metalist = [{'MESSAGE', text}, {'PRIORITY', level_to_num(state.level)}] ++ metadata
     :journald_api.sendv(metalist)
   end
 
