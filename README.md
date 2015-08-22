@@ -39,7 +39,7 @@ And then simply check your journal for the corresponding message with the:
 
 ```
 $ journalctl | sed '$!d'
-Aug 20 17:55:37 localhost beam.smp[24082]: [error] TestLogMessage_Error city=Berlin  module: Elixir.LoggerJournaldBackendTest function: test test_logger_jourand_backend/1
+Aug 20 17:55:37 localhost beam.smp[24082]: [error] TestLogMessage_Error
 ```
 
 ## Runtime configuration
