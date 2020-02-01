@@ -32,7 +32,7 @@ defmodule Logger.Backend.Journald do
       {md_key |> to_string |> String.upcase, :io_lib.format("~p", [md_val])}
     end
 
-    metalist = [{'MESSAGE', text}, {'PRIORITY', level_to_num(state.level)}] ++ metadata
+    metalist = [{'MESSAGE', text}, {'PRIORITY', level_to_num(level)}] ++ metadata
     :journald_api.sendv(metalist)
   end
 
